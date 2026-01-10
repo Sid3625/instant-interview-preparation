@@ -784,7 +784,7 @@ const GuessTheOutputQuiz: React.FC = () => {
 
   const handleTimeout = useCallback(() => {
     if (!showExplanation) {
-      handleSubmit(true);
+      handleSubmit();
     }
   }, [showExplanation]);
 
@@ -809,7 +809,7 @@ const GuessTheOutputQuiz: React.FC = () => {
     return answer.trim().toLowerCase().replace(/\s+/g, ' ');
   };
 
-  const handleSubmit = (isTimeout = false) => {
+  const handleSubmit = () => {
     const correct = normalizeAnswer(userAnswer) === normalizeAnswer(currentQuestion.correctAnswer);
     setIsCorrect(correct);
     setShowExplanation(true);
@@ -1041,7 +1041,7 @@ const GuessTheOutputQuiz: React.FC = () => {
                 </div>
               )}
               <button
-                onClick={() => handleSubmit(false)}
+                onClick={() => handleSubmit()}
                 disabled={!userAnswer.trim()}
                 className="btn btn--primary btn--block"
               >
