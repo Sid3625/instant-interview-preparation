@@ -382,7 +382,7 @@ const questions = useMemo<Question[]>(() => {
               <span className={`badge badge--${currentQuestion.difficulty}`}>
                 {currentQuestion.difficulty.toUpperCase()}
               </span>
-              <span className="tags__topic">#{currentQuestion.topic}</span>
+              <h2 className="tags__topic">Topic: {currentQuestion.topic}</h2>
             </div>
           </div>
 

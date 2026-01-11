@@ -1,13 +1,14 @@
 
 import './style.scss'
-import InterviewPrep from './GuessTheOutputQuiz'
+import { QuizApp } from './QuizApp/QuizApp'
 
 function App() {
  
 
   return (
     <>
-     <InterviewPrep/>
+     {/* <InterviewPrep/> */}
+     <QuizApp />
     </>
   )
 }
