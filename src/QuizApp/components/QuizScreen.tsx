@@ -15,10 +15,12 @@ interface QuizScreenProps {
   score: number;
   streak: number;
   currentQuestion: Question;
+    currentAnsweredQuestion?: AnsweredQuestion;
   answeredQuestion?: AnsweredQuestion;
   onAnswerChange: (answer: string) => void;
-  onSubmit: (isTimeout?: boolean) => void;
+  onSubmit: () => void;
   onNext: () => void;
+  onReset?: () => void;
 }
 
 export const QuizScreen: React.FC<QuizScreenProps> = ({
@@ -31,14 +33,35 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   score,
   streak,
   currentQuestion,
+  currentAnsweredQuestion,
   answeredQuestion,
   onAnswerChange,
   onSubmit,
-  onNext
+  onNext,
+  onReset,
 }) => {
+ 
+  const isResumed = timeLeft < TIMER_DURATION && !showExplanation;
+   // Find the answered question for current question index
+
+  const shouldShowExplanation = showExplanation || !!currentAnsweredQuestion;
+
   return (
     <div className="app-container app-container--quiz">
       <div className="content-wrapper">
+        {/* {isResumed && (
+          <div className="resume-banner">
+            {onReset && (
+              <button
+                onClick={onReset}
+                className="btn btn--text btn--small resume-banner__btn"
+              >
+                Restart Quiz
+              </button>
+            )}
+          </div>
+        )} */}
+
         <StatsHeader
           score={score}
           currentQuestionIndex={currentQuestionIndex}
@@ -46,28 +69,26 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
           streak={streak}
         />
 
-        <div className="card question-card">
-          <div className="question-header">
-            <div className="tags">
-              <span className={`badge badge--${currentQuestion.difficulty}`}>
-                {currentQuestion.difficulty.toUpperCase()}
-              </span>
-              <h2 className="tags__topic">Topic: {currentQuestion.topic}</h2>
-            </div>
-          </div>
-
-          {showExplanation ? (
+          {shouldShowExplanation ? (
             <>
               {answeredQuestion && (
-                <Explanation
-                  question={currentQuestion}
-                  userAnswer={answeredQuestion.userAnswer}
-                  isCorrect={isCorrect}
-                />
+                <>
+                  <Explanation
+                    question={currentQuestion}
+                    userAnswer={answeredQuestion.userAnswer}
+                    isCorrect={isCorrect}
+                  />
+
+                  <button
+                    onClick={onNext}
+                    className="btn btn--primary btn--block"
+                  >
+                    {currentQuestionIndex < questions.length - 1
+                      ? 'Next Question →'
+                      : 'See Results'}
+                  </button>
+                </>
               )}
-              <button onClick={onNext} className="btn btn--primary btn--block">
-                {currentQuestionIndex < questions.length - 1 ? 'Next Question →' : 'See Results'}
-              </button>
             </>
           ) : (
             <QuestionCard
@@ -77,13 +98,13 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
               showExplanation={showExplanation}
               timeLeft={timeLeft}
               totalTime={TIMER_DURATION}
-              onSubmit={() => onSubmit(false)}
+              onSubmit={() => onSubmit()}
               onNext={onNext}
               isLastQuestion={currentQuestionIndex === questions.length - 1}
             />
           )}
         </div>
       </div>
-    </div>
+ 
   );
 };

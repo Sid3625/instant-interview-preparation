@@ -19,13 +19,13 @@ export interface AnsweredQuestion {
 
 export type Difficulty = 'easy' | 'medium' | 'hard' | null;
 
-export interface QuizState {
+export interface QuizSession {
+  id: string;
+  startTime: Date;
+  endTime?: Date;
   difficulty: Difficulty;
-  currentQuestionIndex: number;
-  userAnswer: string;
-  showExplanation: boolean;
-  isCorrect: boolean;
-  gameStarted: boolean;
-  gameFinished: boolean;
-  answeredQuestions: AnsweredQuestion[];
+  score: number;
+  totalQuestions: number;
+  correctAnswers: number;
+  timeSpent: number; // in seconds
 }

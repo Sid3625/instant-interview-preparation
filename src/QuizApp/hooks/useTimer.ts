@@ -1,38 +1,68 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
+import { useQuizStore } from '../store/quizStore';
 
-interface UseTimerReturn {
-  timeLeft: number;
-  isActive: boolean;
-  start: () => void;
-  reset: (time: number) => void;
-}
-
-export const useTimer = (initialTime: number, onTimeout: () => void): UseTimerReturn => {
-  const [timeLeft, setTimeLeft] = useState<number>(initialTime);
-  const [isActive, setIsActive] = useState<boolean>(false);
+export const useTimerEffect = (onTimeout: () => void) => {
+  const { 
+    timeLeft, 
+    isTimerActive, 
+    lastUpdateTime,
+    setTimeLeft, 
+    setIsTimerActive,
+    setLastUpdateTime 
+  } = useQuizStore();
 
   useEffect(() => {
-    if (!isActive || timeLeft <= 0) return;
+    // Skip if timer is not active or we're showing explanation
+    if (!isTimerActive || timeLeft <= 0) return;
 
     const interval = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          setIsActive(false);
-          onTimeout();
-          return 0;
-        }
-        return prev - 1;
-      });
+      const newTimeLeft = Math.max(0, timeLeft - 1);
+      setTimeLeft(newTimeLeft);
+      setLastUpdateTime(Date.now());
+      
+      if (newTimeLeft <= 0) {
+        setIsTimerActive(false);
+        setLastUpdateTime(null);
+        onTimeout();
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, onTimeout]);
+  }, [isTimerActive, timeLeft, lastUpdateTime, setTimeLeft, setIsTimerActive, setLastUpdateTime, onTimeout]);
 
-  const start = useCallback(() => setIsActive(true), []);
-  const reset = useCallback((time: number) => {
+  const startTimer = useCallback(() => {
+    setIsTimerActive(true);
+    setLastUpdateTime(Date.now());
+  }, [setIsTimerActive, setLastUpdateTime]);
+
+  const pauseTimer = useCallback(() => {
+    setIsTimerActive(false);
+    setLastUpdateTime(null);
+  }, [setIsTimerActive, setLastUpdateTime]);
+
+  const resetTimer = useCallback((time: number) => {
     setTimeLeft(time);
-    setIsActive(false);
-  }, []);
+    setIsTimerActive(false);
+    setLastUpdateTime(null);
+  }, [setTimeLeft, setIsTimerActive, setLastUpdateTime]);
 
-  return { timeLeft, isActive, start, reset };
+  return { 
+    timeLeft, 
+    isTimerActive, 
+    startTimer, 
+    pauseTimer, 
+    resetTimer, 
+    lastUpdateTime 
+  };
+};
+
+
+export const useTimerResume = () => {
+  const { resumeTimer } = useQuizStore();
+
+  useEffect(() => {
+    // Resume timer when component mounts
+    const remainingTime = resumeTimer();
+    // console.log(`Timer resumed. Remaining time: ${remainingTime}s`);
+  }, [resumeTimer]);
 };
