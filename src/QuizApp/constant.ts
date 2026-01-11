@@ -1,1 +1,1 @@
-  export const TIMER_DURATION = 5;
+  export const TIMER_DURATION = 45;
