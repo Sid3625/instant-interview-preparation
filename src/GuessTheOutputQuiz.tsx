@@ -152,9 +152,7 @@ const GuessTheOutputQuiz: React.FC = () => {
   const [answeredQuestions, setAnsweredQuestions] = useState<AnsweredQuestion[]>([]);
 
   const { score, streak, addScore, reset: resetScore } = useScore();
-  const TIMER_DURATION = 5;
-
-
+  const TIMER_DURATION = 45;
 
  const handleSubmit = (isTimeout = false) => {
   if (!currentQuestion) return;
