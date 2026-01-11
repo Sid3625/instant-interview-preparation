@@ -6,6 +6,7 @@ import { useScore } from './hooks/useScore';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { QuizScreen } from './components/QuizScreen';
 import { ResultsScreen } from './components/ResultsScreen';
+import { TIMER_DURATION } from './constant';
 
 export const QuizApp: React.FC = () => {
   // State
@@ -22,53 +23,8 @@ export const QuizApp: React.FC = () => {
 
   // Hooks
   const { score, streak, addScore, reset: resetScore } = useScore();
-  const TIMER_DURATION = 45;
 
-  // Timer timeout handler
-  const handleTimeout = useCallback(() => {
-    if (!quizState.showExplanation) {
-      handleSubmit(true);
-    }
-  }, [quizState.showExplanation]);
-
-  const { timeLeft, start: startTimer, reset: resetTimer } = useTimer(TIMER_DURATION, handleTimeout);
-
-  // Filter and shuffle questions
-  const questions = useMemo<Question[]>(() => {
-    if (!quizState.gameStarted) return [];
-
-    const sourceQuestions = questionsData.questions as Question[];
-    const filtered = quizState.difficulty
-      ? sourceQuestions.filter(q => q.difficulty === quizState.difficulty)
-      : sourceQuestions;
-
-    return [...filtered].sort(() => Math.random() - 0.5);
-  }, [quizState.gameStarted, quizState.difficulty]);
-
-  const currentQuestion = questions[quizState.currentQuestionIndex];
-
-  // Helper functions
-  const normalizeAnswer = (answer: string): string => {
-    return answer.trim().toLowerCase().replace(/\s+/g, ' ');
-  };
-
-  const startGame = useCallback((selectedDifficulty: Difficulty) => {
-    setQuizState({
-      difficulty: selectedDifficulty,
-      currentQuestionIndex: 0,
-      userAnswer: '',
-      showExplanation: false,
-      isCorrect: false,
-      gameStarted: true,
-      gameFinished: false,
-      answeredQuestions: []
-    });
-    resetScore();
-    resetTimer(TIMER_DURATION);
-    startTimer();
-  }, [resetScore, resetTimer, startTimer]);
-
-  const handleSubmit = useCallback((isTimeout = false) => {
+  const handleSubmit = (isTimeout = false) => {
     if (!currentQuestion) return;
 
     const correct = normalizeAnswer(quizState.userAnswer) === 
@@ -97,7 +53,53 @@ export const QuizApp: React.FC = () => {
       isCorrect: correct,
       answeredQuestions: [...prev.answeredQuestions, answeredQuestion]
     }));
-  }, [currentQuestion, quizState.userAnswer, timeLeft, streak, addScore]);
+  };
+
+  // Timer timeout handler
+  const handleTimeout = useCallback(() => {
+    if (!quizState.showExplanation) {
+      handleSubmit(true);
+    }
+  }, [quizState.showExplanation, handleSubmit]);
+  const { timeLeft, start: startTimer, reset: resetTimer } = useTimer(TIMER_DURATION, handleTimeout);
+
+     // Filter and shuffle questions
+  const questions = useMemo<Question[]>(() => {
+    if (!quizState.gameStarted) return [];
+
+    const sourceQuestions = questionsData.questions as Question[];
+    const filtered = quizState.difficulty
+      ? sourceQuestions.filter(q => q.difficulty === quizState.difficulty)
+      : sourceQuestions;
+
+    return [...filtered].sort(() => Math.random() - 0.5);
+  }, [quizState.gameStarted, quizState.difficulty]);
+
+  const currentQuestion = questions[quizState.currentQuestionIndex];
+
+
+  // Helper functions
+  const normalizeAnswer = (answer: string): string => {
+    return answer.trim().toLowerCase().replace(/\s+/g, ' ');
+  };
+
+  const startGame = useCallback((selectedDifficulty: Difficulty) => {
+    setQuizState({
+      difficulty: selectedDifficulty,
+      currentQuestionIndex: 0,
+      userAnswer: '',
+      showExplanation: false,
+      isCorrect: false,
+      gameStarted: true,
+      gameFinished: false,
+      answeredQuestions: []
+    });
+    resetScore();
+    resetTimer(TIMER_DURATION);
+    startTimer();
+  }, [resetScore, resetTimer, startTimer]);
+
+
 
   const handleNext = useCallback(() => {
     if (quizState.currentQuestionIndex < questions.length - 1) {

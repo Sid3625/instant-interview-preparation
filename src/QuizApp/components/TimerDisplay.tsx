@@ -9,6 +9,7 @@ interface TimerDisplayProps {
 export const TimerDisplay: React.FC<TimerDisplayProps> = ({ timeLeft, totalTime }) => {
   const percentage = (timeLeft / totalTime) * 100;
   const isLow = timeLeft <= 10;
+console.log(totalTime, timeLeft);
 
   return (
     <div className="timer-display">

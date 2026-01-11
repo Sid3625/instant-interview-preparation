@@ -3,6 +3,7 @@ import type { Question, AnsweredQuestion } from '../types';
 import { StatsHeader } from './StatsHeader';
 import { QuestionCard } from './QuestionCard';
 import { Explanation } from './Explanation';
+import { TIMER_DURATION } from '../constant';
 
 interface QuizScreenProps {
   questions: Question[];
@@ -75,7 +76,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
               onAnswerChange={onAnswerChange}
               showExplanation={showExplanation}
               timeLeft={timeLeft}
-              totalTime={45}
+              totalTime={TIMER_DURATION}
               onSubmit={() => onSubmit(false)}
               onNext={onNext}
               isLastQuestion={currentQuestionIndex === questions.length - 1}
