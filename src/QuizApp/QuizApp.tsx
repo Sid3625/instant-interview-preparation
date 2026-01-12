@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect } from 'react';
+import React, {  useCallback, useEffect } from 'react';
 import questionsData from '../data/data.json';
 import type { Question, Difficulty } from './types';
 import { useQuizStore } from './store/quizStore';
@@ -28,7 +28,6 @@ export const QuizApp: React.FC = () => {
     setIsCorrect, 
     setUserAnswer,
     setQuestions,
-    restoreState,
     startGame: storeStartGame,
     submitAnswer: storeSubmitAnswer,
     nextQuestion: storeNextQuestion,

@@ -38,29 +38,14 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   onAnswerChange,
   onSubmit,
   onNext,
-  onReset,
 }) => {
  
-  const isResumed = timeLeft < TIMER_DURATION && !showExplanation;
-   // Find the answered question for current question index
 
   const shouldShowExplanation = showExplanation || !!currentAnsweredQuestion;
 
   return (
     <div className="app-container app-container--quiz">
       <div className="content-wrapper">
-        {/* {isResumed && (
-          <div className="resume-banner">
-            {onReset && (
-              <button
-                onClick={onReset}
-                className="btn btn--text btn--small resume-banner__btn"
-              >
-                Restart Quiz
-              </button>
-            )}
-          </div>
-        )} */}
 
         <StatsHeader
           score={score}

@@ -61,8 +61,8 @@ export const useTimerResume = () => {
   const { resumeTimer } = useQuizStore();
 
   useEffect(() => {
-    // Resume timer when component mounts
-    const remainingTime = resumeTimer();
+  
+      resumeTimer();
     // console.log(`Timer resumed. Remaining time: ${remainingTime}s`);
   }, [resumeTimer]);
 };
