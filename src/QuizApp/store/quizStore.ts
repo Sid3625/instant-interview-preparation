@@ -163,34 +163,13 @@ export const useQuizStore = create<QuizStore>()(
       isCurrentQuestionAnswered: () => {
         const state = get();
         return state.answeredQuestions.some(
-          (aq, index) => index === state.currentQuestionIndex
+          (_, index) => index === state.currentQuestionIndex
         );
       },
 
     
       restoreState: () => {
-        const state = get();
-
-        if (state.gameStarted && !state.gameFinished) {
-          const isAnswered = state.answeredQuestions.some(
-            (aq, index) => index === state.currentQuestionIndex
-          );
-
-          if (isAnswered) {
-       
-            set({
-              showExplanation: true,
-              isTimerActive: false,
-              userAnswer: "", 
-            });
-          } else {
-          
-            set({
-              showExplanation: false,
-              isTimerActive: state.isTimerActive && state.timeLeft > 0,
-            });
-          }
-        }
+        const state = get();   
       },
 
       submitAnswer: ({
