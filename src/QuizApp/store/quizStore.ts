@@ -169,7 +169,7 @@ export const useQuizStore = create<QuizStore>()(
 
     
       restoreState: () => {
-        const state = get();   
+        return get();   
       },
 
       submitAnswer: ({
