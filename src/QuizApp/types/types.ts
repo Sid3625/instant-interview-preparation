@@ -29,3 +29,11 @@ export interface QuizSession {
   correctAnswers: number;
   timeSpent: number; // in seconds
 }
+export interface QuizConfig {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  route: string;
+  color: string;
+}

@@ -1,6 +1,9 @@
 
-import './style.scss'
-import { QuizApp } from './QuizApp/QuizApp'
+import QuizApp from './QuizApp/quizzes/QuizApp'
+// import './style.scss'
+import "./index.css";
+
+
 
 function App() {
  

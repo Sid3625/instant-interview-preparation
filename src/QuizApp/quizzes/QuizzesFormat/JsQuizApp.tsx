@@ -1,13 +1,14 @@
 import React, {  useCallback, useEffect } from 'react';
-import questionsData from '../data/data.json';
-import type { Question, Difficulty } from './types';
-import { useQuizStore } from './store/quizStore';
-import { useTimerEffect, useTimerResume } from './hooks/useTimer';
-import { WelcomeScreen } from './components/WelcomeScreen';
-import { QuizScreen } from './components/QuizScreen';
-import { ResultsScreen } from './components/ResultsScreen';
+import questionsData from '../../../data/data.json';
+import type { Question, Difficulty } from '../../types/types';
+import { useQuizStore } from '../../store/quizStore';
+import { useTimerEffect, useTimerResume } from '../../hooks/useTimer';
+import { QuizScreen } from '../../components/Screens/QuizScreen';
+import { ResultsScreen } from '../../components/Screens/ResultsScreen';
+import { WelcomeScreen } from '../../components/Screens/WelcomeScreen';
 
-export const QuizApp: React.FC = () => {
+
+export const JsQuizApp: React.FC = () => {
   const {
 
     difficulty,
