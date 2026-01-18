@@ -1,39 +1,26 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { QuizSelectionPage } from "./QuizSelectionPage";
-import { McqQuizApp } from "./QuizzesFormat/McqQuizApp";
-import { CodeDebugQuizApp } from "./QuizzesFormat/CodeDebugQuizApp";
-import { JsQuizApp } from "./QuizzesFormat/JsQuizApp";
-import { ReactHookMasterApp } from "./QuizzesFormat/ReactHookMasterApp";
 
 export default function QuizApp() {
-  const [currentView, setCurrentView] = useState<
-    "selection" | "mcq" | "debug" | "guessOutput" | "react-hooks"
-  >("selection");
-  if (currentView === "guessOutput") {
-    return <JsQuizApp />;
-  }
+  const navigate = useNavigate();
 
-  if (currentView === "mcq") {
-    return <McqQuizApp />;
-  }
+  const handleQuizSelection = (id: string) => {
+    const routeMap: Record<string, string> = {
+      "guess-output": "/guess-output",
+      "mcq-quiz": "/mcq",
+      "code-debug": "/debug",
+      "react-hooks": "/react-hooks",
+      "async-js": "/async-js",
+      "algorithms": "/algorithms",
+    };
 
-  if (currentView === "debug") {
-    return <CodeDebugQuizApp />;
-  }
+    const route = routeMap[id];
+    if (route) {
+      navigate(route);
+    } else {
+      alert(`${id} quiz template coming soon!`);
+    }
+  };
 
-  if (currentView === "react-hooks") {
-    return <ReactHookMasterApp />;
-  }
-
-  return (
-    <QuizSelectionPage
-      onSelectQuiz={(id) => {
-        if (id === "guess-output") setCurrentView("guessOutput");
-        else if (id === "mcq-quiz") setCurrentView("mcq");
-        else if (id === "code-debug") setCurrentView("debug");
-        else if (id === "react-hooks") setCurrentView("react-hooks");
-        else alert(`${id} quiz template coming soon!`);
-      }}
-    />
-  );
+  return <QuizSelectionPage onSelectQuiz={handleQuizSelection} />;
 }
