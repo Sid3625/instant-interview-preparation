@@ -34,6 +34,11 @@ export interface MachineCodingQuestion extends BaseQuestion {
 export interface QuizData {
   questions: Question[];
 }
+export type EvaluationType =
+  | "sync" // normal functions
+  | "async" // Promise-based
+  | "behavioral" // debounce, throttle
+  | "conceptual"; // React.memo, hooks
 
 export interface Question {
   id: number;
@@ -50,6 +55,7 @@ export interface Question {
   prompt?: string;
   starterCode?: string;
   testCases?: TestCase[];
+  evaluationType?: EvaluationType;
 
   explanation: string;
   hints: string[];

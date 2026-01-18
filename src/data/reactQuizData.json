@@ -5,22 +5,111 @@
       "difficulty": "easy",
       "topic": "react-hooks",
       "type": "machine-coding",
-      "prompt": "Implement a function `solution(a, b)` that returns the sum of two numbers.",
-      "starterCode": "function solution(a, b) {\n  // write your code here\n}",
+      "evaluationType": "sync",
+      "prompt": "Implement a function `sum(a, b)` that returns the sum of two numbers.",
+      "starterCode": "function sum(a, b) {\n  // write your code here\n}",
       "testCases": [
-        {
-          "name": "Simple addition",
-          "input": [1, 2],
-          "expectedOutput": 3
-        },
-        {
-          "name": "Negative numbers",
-          "input": [-5, 5],
-          "expectedOutput": 0
-        }
+        { "name": "Simple addition", "input": [1, 2], "expectedOutput": 3 },
+        { "name": "Negative numbers", "input": [-5, 5], "expectedOutput": 0 }
       ],
       "explanation": "Return the sum of the two numbers using the + operator.",
       "hints": ["Use return statement", "a + b"]
+    },
+
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "topic": "javascript-basics",
+      "type": "machine-coding",
+      "evaluationType": "sync",
+      "prompt": "Implement a function `maximum(arr)` that returns the largest number in an array.",
+      "starterCode": "function maximum(arr) {\n  // write your code here\n}",
+      "testCases": [
+        {
+          "name": "Positive numbers",
+          "input": [[1, 5, 3]],
+          "expectedOutput": 5
+        },
+        {
+          "name": "Negative numbers",
+          "input": [[-10, -3, -20]],
+          "expectedOutput": -3
+        }
+      ],
+      "explanation": "Iterate through the array and track the maximum value.",
+      "hints": ["Use Math.max", "Loop through array"]
+    },
+
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "topic": "react-hooks",
+      "type": "machine-coding",
+      "evaluationType": "conceptual",
+      "prompt": "Implement a custom hook `useCounter(initialValue)` that returns count, increment, and decrement.",
+      "starterCode": "function useCounter(initialValue) {\n  // write your code here\n}",
+      "testCases": [
+        { "name": "Initial value", "input": [5], "expectedOutput": 5 }
+      ],
+      "explanation": "Use useState to manage count and return helper functions.",
+      "hints": ["useState", "Return object or array"]
+    },
+
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "topic": "react-performance",
+      "type": "machine-coding",
+      "evaluationType": "conceptual",
+      "prompt": "Implement a component that prevents unnecessary re-renders using `React.memo`.",
+      "starterCode": "const Child = ({ value }) => {\n  return <div>{value}</div>;\n};",
+      "testCases": [
+        {
+          "name": "Re-render prevention",
+          "input": [],
+          "expectedOutput": "Component should not re-render if props unchanged"
+        }
+      ],
+      "explanation": "Wrap the component with React.memo.",
+      "hints": ["React.memo", "Props comparison"]
+    },
+
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "topic": "javascript-async",
+      "type": "machine-coding",
+      "evaluationType": "async",
+      "prompt": "Implement a function `solution(promises)` that resolves all promises like `Promise.all`.",
+      "starterCode": "function solution(promises) {\n  // write your code here\n}",
+      "testCases": [
+        {
+          "name": "Resolve promises",
+          "input": [[1, 2]],
+          "expectedOutput": [1, 2]
+        }
+      ],
+      "explanation": "Wait for all promises to resolve or reject if any fails.",
+      "hints": ["Promise", "Array handling"]
+    },
+
+    {
+      "id": 6,
+      "difficulty": "easy",
+      "topic": "react-machine-coding",
+      "type": "machine-coding",
+      "evaluationType": "behavioral",
+      "prompt": "Build a debounce function and use it in a search input component.",
+      "starterCode": "function debounce(fn, delay) {\n  // write your code here\n}",
+      "testCases": [
+        {
+          "name": "Debounce execution",
+          "input": ["typing events"],
+          "expectedOutput": "Function executes after delay"
+        }
+      ],
+      "explanation": "Debounce delays execution until user stops triggering the function.",
+      "hints": ["setTimeout", "clearTimeout", "useRef"]
     }
   ]
 }

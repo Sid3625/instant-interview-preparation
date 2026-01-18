@@ -49,12 +49,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
             Topic: <strong className="text-gray-800">{question.topic}</strong>
           </span>
         </div>
+        {/* Timer */}
+        {!showExplanation && (
+          <TimerDisplay timeLeft={timeLeft} totalTime={totalTime} />
+        )}
       </div>
-
-      {/* Timer */}
-      {!showExplanation && (
-        <TimerDisplay timeLeft={timeLeft} totalTime={totalTime} />
-      )}
 
       {/* Question */}
       <h3 className="text-xl font-bold text-gray-800">

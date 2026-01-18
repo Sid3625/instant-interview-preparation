@@ -7,6 +7,11 @@ import type {
   TestCase,
 } from "../types/types";
 import { TIMER_DURATION } from "../utils/constant";
+import {
+  deepEqual,
+  extractFunctionName,
+  normalizeInput,
+} from "../utils/commonFunction";
 
 interface QuizStore {
   difficulty: Difficulty;
@@ -63,13 +68,7 @@ interface QuizStore {
     streak: number;
   }) => void;
 
-  submitMachineCodingAnswer: (params: {
-    question: Question;
-    userAnswer: string;
-    isTimeout?: boolean;
-    timeLeft: number;
-    streak: number;
-  }) => void;
+  submitMachineCodingAnswer: (question: Question, isTimeout?: boolean) => void;
 
   nextQuestion: () => void;
   restartQuiz: () => void;
@@ -265,25 +264,58 @@ export const useQuizStore = create<QuizStore>()((set, get) => ({
     }));
   },
 
-  submitMachineCodingAnswer: (question: any) => {
+  submitMachineCodingAnswer: async (question: Question, isTimeout = false) => {
     const { userCode, streak } = get();
     let passed = false;
 
     try {
-      const fn = new Function(`
-    ${userCode}
-    if (typeof solution !== "function") {
-      throw new Error("solution is not defined");
-    }
-    return solution;
-  `)();
-      passed =
-        question.testCases?.every((tc: TestCase) => {
-          const result = fn(...tc.input);
-          return Object.is(result, tc.expectedOutput);
-        }) ?? false;
+      const functionName = extractFunctionName(question.starterCode);
 
-      console.log("Passed:", passed);
+      if (!functionName) {
+        throw new Error("Unable to detect function name");
+      }
+
+      const fn = new Function(`
+        ${userCode}
+        return typeof ${functionName} === "function"
+          ? ${functionName}
+          : undefined;
+      `)();
+
+      if (typeof fn !== "function") {
+        throw new Error(`${functionName} is not defined`);
+      }
+
+      switch (question.evaluationType) {
+        case "conceptual":
+          passed = true;
+          break;
+
+        case "behavioral": {
+          const result = fn(...(question.testCases?.[0]?.input ?? []));
+          passed = typeof result === "function";
+          break;
+        }
+
+        case "async":
+        case "sync":
+        default: {
+          const results = await Promise.all(
+            question.testCases?.map(async (tc: TestCase) => {
+              const input = normalizeInput(question, tc);
+
+              let output = fn(...input);
+              if (output instanceof Promise) {
+                output = await output;
+              }
+
+              return deepEqual(output, tc.expectedOutput);
+            }) ?? []
+          );
+
+          passed = results.every(Boolean);
+        }
+      }
     } catch (err: any) {
       passed = false;
       console.log("Execution failed:", err.message);

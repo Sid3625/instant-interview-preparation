@@ -1,30 +1,79 @@
 import { useQuizStore } from "../../store/quizStore";
+import { extractFunctionName } from "../../utils/commonFunction";
 import { runUserCode } from "./runUserCode";
 
 export const RunButton = () => {
-  const { userCode, setRunOutput, setCompileError, setIsRunning } =
-    useQuizStore();
+  const {
+    userCode,
+    questions,
+    currentQuestionIndex,
+    setRunOutput,
+    setCompileError,
+    setIsRunning,
+  } = useQuizStore();
 
   const run = () => {
+    if (!questions[currentQuestionIndex].testCases) return;
+
     setIsRunning(true);
     setCompileError(null);
     setRunOutput("");
+
+    const testCases = JSON.stringify(questions[currentQuestionIndex].testCases);
+    const functionName = extractFunctionName(
+      questions[currentQuestionIndex].starterCode
+    );
+
+    if (!functionName) {
+      setCompileError("Unable to detect function name");
+      return;
+    }
+
     const wrappedCode = `
-        ${userCode}
+  ${userCode}
 
-        try {
-        if (typeof solution !== "function") {
-            console.log("❌ Error: solution(a, b) is not defined");
-        } else {
-            console.log("Running test cases...");
+  const testCases = ${testCases};
+  const functionName = "${functionName}";
 
-            console.log("Test 1:", solution(1, 2) === 3 ? "PASS" : "FAIL");
-            console.log("Test 2:", solution(-5, 5) === 0 ? "PASS" : "FAIL");
+  (async function runTests() {
+    try {
+      const fn = globalThis[functionName];
+
+    
+      if (typeof fn !== "function") {
+        console.log(\`❌ Error: \${functionName} is not defined\`);
+        return;
+      }
+
+      console.log("Running test cases...");
+
+      for (let i = 0; i < testCases.length; i++) {
+        const tc = testCases[i];
+
+        let result = fn(...tc.input);
+
+        if (result instanceof Promise) {
+          result = await result;
         }
-        } catch (e) {
-        console.log("Runtime Error:", e.message);
-        }
-    `;
+
+        const pass =
+          JSON.stringify(result) === JSON.stringify(tc.expectedOutput);
+
+        console.log(
+          \`Test \${i + 1} (\${tc.name}): \${pass ? "PASS" : "FAIL"}\`,
+          pass
+            ? ""
+            : JSON.stringify({
+                expected: tc.expectedOutput,
+                received: result,
+              })
+        );
+      }
+    } catch (e) {
+      console.log("Runtime Error:", e.message);
+    }
+  })();
+`;
 
     runUserCode(
       wrappedCode,

@@ -1,10 +1,13 @@
+import { useCallback } from "react";
 import { useQuizStore } from "../../store/quizStore";
 import { CodeEditor } from "../CodeEditor/CodeEditor";
 import { OutputPanel } from "../CodeEditor/Output";
 import { RunButton } from "../CodeEditor/RunButton";
+import { useTimerEffect } from "../../hooks/useTimer";
+import type { Question } from "../../types/types";
 
 interface MachineCodingQuestionProps {
-  question: any;
+  question: Question;
 }
 
 export const MachineCodingQuestion: React.FC<MachineCodingQuestionProps> = ({
@@ -16,7 +19,18 @@ export const MachineCodingQuestion: React.FC<MachineCodingQuestionProps> = ({
     submitMachineCodingAnswer,
     nextQuestion,
     isCurrentQuestionAnswered,
+    streak,
+    timeLeft,
   } = useQuizStore();
+  // Handle timer timeout
+  const handleTimeout = useCallback(() => {
+    if (!showExplanation && question) {
+      submitMachineCodingAnswer(question, true);
+    }
+  }, [showExplanation, question, timeLeft, streak, submitMachineCodingAnswer]);
+
+  // Timer effect
+  useTimerEffect(handleTimeout);
 
   const alreadyAnswered = isCurrentQuestionAnswered();
 

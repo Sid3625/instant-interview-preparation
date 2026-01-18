@@ -8,7 +8,9 @@ export const OutputPanel = () => {
       {compileError ? (
         <span className="text-red-400">{compileError}</span>
       ) : (
-        runOutput || "Output will appear here..."
+        <pre className="whitespace-pre-wrap text-sm">
+          {runOutput || "Output will appear here..."}
+        </pre>
       )}
     </div>
   );
