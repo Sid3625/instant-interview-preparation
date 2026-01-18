@@ -267,6 +267,7 @@ export const useQuizStore = create<QuizStore>()((set, get) => ({
   submitMachineCodingAnswer: async (question: Question, isTimeout = false) => {
     const { userCode, streak } = get();
     let passed = false;
+    console.log(isTimeout);
 
     try {
       const functionName = extractFunctionName(question.starterCode);

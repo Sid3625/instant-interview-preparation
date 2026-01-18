@@ -3,7 +3,6 @@ import type { Question, AnsweredQuestion } from "../../types/types";
 import { StatsHeader } from "../StatsHeader/StatsHeader";
 import { QuestionCard } from "../QuestionCard/QuestionCard";
 import { Explanation } from "../Explanation/Explanation";
-import { TIMER_DURATION } from "../../utils/constant";
 
 interface QuizScreenProps {
   questions: Question[];

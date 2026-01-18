@@ -6,10 +6,7 @@ interface TimerDisplayProps {
   totalTime: number;
 }
 
-export const TimerDisplay: React.FC<TimerDisplayProps> = ({
-  timeLeft,
-  totalTime,
-}) => {
+export const TimerDisplay: React.FC<TimerDisplayProps> = ({ timeLeft }) => {
   const isCritical = timeLeft <= 10;
   const isWarning = timeLeft <= 30;
 
