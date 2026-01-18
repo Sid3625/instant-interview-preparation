@@ -1,0 +1,26 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "topic": "react-hooks",
+      "type": "machine-coding",
+      "prompt": "Implement a function `solution(a, b)` that returns the sum of two numbers.",
+      "starterCode": "function solution(a, b) {\n  // write your code here\n}",
+      "testCases": [
+        {
+          "name": "Simple addition",
+          "input": [1, 2],
+          "expectedOutput": 3
+        },
+        {
+          "name": "Negative numbers",
+          "input": [-5, 5],
+          "expectedOutput": 0
+        }
+      ],
+      "explanation": "Return the sum of the two numbers using the + operator.",
+      "hints": ["Use return statement", "a + b"]
+    }
+  ]
+}

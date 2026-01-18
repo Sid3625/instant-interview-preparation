@@ -21,6 +21,7 @@ interface QuizScreenProps {
   onSubmit: () => void;
   onNext: () => void;
   onReset?: () => void;
+  quizQuestionTimerDuration: number;
 }
 
 export const QuizScreen: React.FC<QuizScreenProps> = ({
@@ -38,6 +39,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   onAnswerChange,
   onSubmit,
   onNext,
+  quizQuestionTimerDuration,
 }) => {
   const shouldShowExplanation = showExplanation || !!currentAnsweredQuestion;
 
@@ -61,7 +63,6 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
                   question={currentQuestion}
                   userAnswer={answeredQuestion.userAnswer}
                   isCorrect={isCorrect}
-                 
                 />
 
                 <button
@@ -82,15 +83,13 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
             onAnswerChange={onAnswerChange}
             showExplanation={showExplanation}
             timeLeft={timeLeft}
-            totalTime={TIMER_DURATION}
+            totalTime={quizQuestionTimerDuration}
             onSubmit={onSubmit}
             onNext={onNext}
             isLastQuestion={currentQuestionIndex === questions.length - 1}
-            
           />
         )}
       </div>
     </div>
   );
 };
-

@@ -2,6 +2,7 @@ import React from "react";
 import type { Question } from "../../types/types";
 import { CodeBlock } from "../CodeBlock/CodeBlock";
 import { TimerDisplay } from "../TimerDisplay/TimerDisplay";
+import { MachineCodingQuestion } from "./MachineCodingQuestion";
 
 interface QuestionCardProps {
   question: Question;
@@ -60,7 +61,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         What will be the output?
       </h3>
 
-      <CodeBlock code={question.code} />
+      {question.code && <CodeBlock code={question.code} />}
 
       {/* Actions */}
       {showExplanation ? (
@@ -72,8 +73,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         </button>
       ) : (
         <>
+          {question.type && question.type === "machine-coding" && (
+            <MachineCodingQuestion question={question} />
+          )}
           {/* MCQ */}
-          {question.type === "mcq" ? (
+          {question.type === "mcq" && (
             <div className="space-y-3">
               <p className="text-sm text-gray-600">
                 Choose the correct answer:
@@ -97,9 +101,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                       <span
                         className={`w-4 h-4 rounded-full border flex items-center justify-center
                           ${
-                            selected
-                              ? "border-purple-500"
-                              : "border-gray-400"
+                            selected ? "border-purple-500" : "border-gray-400"
                           }`}
                       >
                         {selected && (
@@ -115,12 +117,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                 })}
               </div>
             </div>
-          ) : (
+          )}
+          {question.type === "text" && (
             /* Text Answer */
             <div className="space-y-2">
-              <label className="text-sm text-gray-600">
-                Your Answer:
-              </label>
+              <label className="text-sm text-gray-600">Your Answer:</label>
 
               <textarea
                 value={userAnswer}

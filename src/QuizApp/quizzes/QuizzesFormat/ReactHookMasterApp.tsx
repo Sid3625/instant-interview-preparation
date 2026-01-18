@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect } from "react";
-import quizData from "../../../data/data.json";
+import questionsData from "../../../data/reactQuizData.json";
 import type { Difficulty, QuizData } from "../../types/types";
 import { useQuizStore } from "../../store/quizStore";
 import { useTimerEffect, useTimerResume } from "../../hooks/useTimer";
 import { QuizScreen } from "../../components/Screens/QuizScreen";
 import { ResultsScreen } from "../../components/Screens/ResultsScreen";
 import { WelcomeScreen } from "../../components/Screens/WelcomeScreen";
-import { JS_QUIZ_QUESTION_TIMER } from "../../utils/constant";
+import { REACT_QUIZ_QUESTION_TIMER } from "../../utils/constant";
 
-export const JsQuizApp: React.FC = () => {
+export const ReactHookMasterApp: React.FC = () => {
   const {
     currentQuestionIndex,
     userAnswer,
@@ -34,6 +34,7 @@ export const JsQuizApp: React.FC = () => {
     setLastUpdateTime,
     setTimerDuration,
   } = useQuizStore();
+  const quizData = questionsData as QuizData;
 
   //   useEffect(() => {
   //   restoreState();
@@ -62,11 +63,7 @@ export const JsQuizApp: React.FC = () => {
   // Start game handler
   const startGame = useCallback(
     (selectedDifficulty: Difficulty) => {
-      storeStartGame(
-        selectedDifficulty,
-        quizData as QuizData,
-        JS_QUIZ_QUESTION_TIMER
-      );
+      storeStartGame(selectedDifficulty, quizData, REACT_QUIZ_QUESTION_TIMER);
     },
     [storeStartGame]
   );
@@ -131,8 +128,8 @@ export const JsQuizApp: React.FC = () => {
 
   useEffect(() => {
     if (gameStarted && !gameFinished) {
+      setTimerDuration(60);
       // Check if current question has been answered
-      setTimerDuration(JS_QUIZ_QUESTION_TIMER);
       const currentAnswered = answeredQuestions[currentQuestionIndex];
       if (currentAnswered) {
         // If question is answered, show explanation
@@ -192,7 +189,7 @@ export const JsQuizApp: React.FC = () => {
       onSubmit={() => submitAnswer(false)}
       onNext={nextQuestion}
       onReset={resetGame}
-      quizQuestionTimerDuration={JS_QUIZ_QUESTION_TIMER}
+      quizQuestionTimerDuration={REACT_QUIZ_QUESTION_TIMER}
     />
   );
 };
