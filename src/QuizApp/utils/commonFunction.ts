@@ -33,3 +33,9 @@ export function extractFunctionName(code: string | undefined): string | null {
 
   return null;
 }
+export function getFirstLineOfCode(code: string) {
+  return code
+    .split("\n")
+    .map((l) => l.trim())
+    .find((l) => l.length > 0);
+}
