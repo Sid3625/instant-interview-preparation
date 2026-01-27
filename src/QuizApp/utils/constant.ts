@@ -1,5 +1,6 @@
 export const JS_QUIZ_QUESTION_TIMER = 45;
 export const MCQ_QUIZ_QUESTION_TIMER = 30;
 export const REACT_QUIZ_QUESTION_TIMER = 600;
+export const JS_ASYNC_QUIZ_QUESTION_TIMER = 45;
 
 export const TIMER_DURATION = 45;

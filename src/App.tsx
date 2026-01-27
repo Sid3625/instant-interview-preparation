@@ -1,12 +1,13 @@
-import { lazy, Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import QuizApp from './QuizApp/quizzes/QuizApp';
-import { McqQuizApp } from './QuizApp/quizzes/QuizzesFormat/McqQuizApp';
-import { CodeDebugQuizApp } from './QuizApp/quizzes/QuizzesFormat/CodeDebugQuizApp';
-import { JsQuizApp } from './QuizApp/quizzes/QuizzesFormat/JsQuizApp';
-import { ReactHookMasterApp } from './QuizApp/quizzes/QuizzesFormat/ReactHookMasterApp';
-const NotFound = lazy(() => import('./QuizApp/components/Screens/NotFound'));
+import QuizApp from "./QuizApp/quizzes/QuizApp";
+import { McqQuizApp } from "./QuizApp/quizzes/QuizzesFormat/McqQuizApp";
+import { CodeDebugQuizApp } from "./QuizApp/quizzes/QuizzesFormat/CodeDebugQuizApp";
+import { GuessTheOutputQuizApp } from "./QuizApp/quizzes/QuizzesFormat/GuessTheOutputQuizApp";
+import { ReactHookMasterApp } from "./QuizApp/quizzes/QuizzesFormat/ReactHookMasterApp";
+import { JsAsyncQuizApp } from "./QuizApp/quizzes/QuizzesFormat/JsAsyncQuizApp";
+const NotFound = lazy(() => import("./QuizApp/components/Screens/NotFound"));
 
 // Loading component
 const LoadingFallback = () => (
@@ -36,35 +37,35 @@ const ComingSoon = ({ title }: { title: string }) => (
 // Create router with routes
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <QuizApp />,
   },
   {
-    path: '/guess-output',
-    element: <JsQuizApp />,
+    path: "/guess-output",
+    element: <GuessTheOutputQuizApp />,
   },
   {
-    path: '/mcq',
+    path: "/mcq",
     element: <McqQuizApp />,
   },
   {
-    path: '/debug',
+    path: "/debug",
     element: <CodeDebugQuizApp />,
   },
   {
-    path: '/react-hooks',
+    path: "/react-hooks",
     element: <ReactHookMasterApp />,
   },
   {
-    path: '/async-js',
-    element: <ComingSoon title="Async JavaScript Quiz" />,
+    path: "/async-js",
+    element: <JsAsyncQuizApp />,
   },
   {
-    path: '/algorithms',
+    path: "/algorithms",
     element: <ComingSoon title="Algorithm Sprint Quiz" />,
   },
   {
-    path: '*',
+    path: "*",
     element: (
       <Suspense fallback={<LoadingFallback />}>
         <NotFound />

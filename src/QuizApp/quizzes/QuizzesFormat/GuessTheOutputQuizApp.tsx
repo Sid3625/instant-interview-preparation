@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import quizData from "../../../data/data.json";
+import quizData from "../../../data/guessTheOutputData.json";
 import type { Difficulty, QuizData } from "../../types/types";
 import { useQuizStore } from "../../store/quizStore";
 import { useTimerEffect, useTimerResume } from "../../hooks/useTimer";
@@ -8,7 +8,7 @@ import { ResultsScreen } from "../../components/Screens/ResultsScreen";
 import { WelcomeScreen } from "../../components/Screens/WelcomeScreen";
 import { JS_QUIZ_QUESTION_TIMER } from "../../utils/constant";
 
-export const JsQuizApp: React.FC = () => {
+export const GuessTheOutputQuizApp: React.FC = () => {
   const {
     currentQuestionIndex,
     userAnswer,

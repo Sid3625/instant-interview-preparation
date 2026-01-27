@@ -3,113 +3,263 @@
     {
       "id": 1,
       "difficulty": "easy",
-      "topic": "react-hooks",
-      "type": "machine-coding",
-      "evaluationType": "sync",
-      "prompt": "Implement a function `sum(a, b)` that returns the sum of two numbers.",
-      "starterCode": "function sum(a, b) {\n  // write your code here\n}",
-      "testCases": [
-        { "name": "Simple addition", "input": [1, 2], "expectedOutput": 3 },
-        { "name": "Negative numbers", "input": [-5, 5], "expectedOutput": 0 }
-      ],
-      "explanation": "Return the sum of the two numbers using the + operator.",
-      "hints": ["Use return statement", "a + b"]
+      "topic": "useState",
+      "type": "text",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n  console.log(count);\n  return <button onClick={() => setCount(1)}>Click</button>;\n}",
+      "correctAnswer": "0",
+      "explanation": "The component renders initially with count = 0. The console.log runs during render, before any click happens.",
+      "hints": ["Initial state", "Render cycle"]
     },
-
     {
       "id": 2,
-      "difficulty": "easy",
-      "topic": "javascript-basics",
-      "type": "machine-coding",
-      "evaluationType": "sync",
-      "prompt": "Implement a function `maximum(arr)` that returns the largest number in an array.",
-      "starterCode": "function maximum(arr) {\n  // write your code here\n}",
-      "testCases": [
-        {
-          "name": "Positive numbers",
-          "input": [[1, 5, 3]],
-          "expectedOutput": 5
-        },
-        {
-          "name": "Negative numbers",
-          "input": [[-10, -3, -20]],
-          "expectedOutput": -3
-        }
-      ],
-      "explanation": "Iterate through the array and track the maximum value.",
-      "hints": ["Use Math.max", "Loop through array"]
+      "difficulty": "medium",
+      "topic": "useState",
+      "type": "mcq",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  const handleClick = () => {\n    setCount(count + 1);\n    setCount(count + 1);\n  };\n\n  return <button onClick={handleClick}>{count}</button>;\n}",
+      "options": ["0", "1", "2", "Error"],
+      "correctAnswer": "1",
+      "explanation": "React batches state updates. Both setCount calls use the same stale value of count (0), so the final state becomes 1.",
+      "hints": ["State batching", "Stale state"]
     },
-
     {
       "id": 3,
       "difficulty": "easy",
-      "topic": "react-hooks",
-      "type": "machine-coding",
-      "evaluationType": "conceptual",
-      "prompt": "Implement a custom hook `useCounter(initialValue)` that returns count, increment, and decrement.",
-      "starterCode": "function useCounter(initialValue) {\n  // write your code here\n}",
-      "testCases": [
-        { "name": "Initial value", "input": [5], "expectedOutput": 5 }
-      ],
-      "explanation": "Use useState to manage count and return helper functions.",
-      "hints": ["useState", "Return object or array"]
+      "topic": "useEffect",
+      "type": "text",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  React.useEffect(() => {\n    console.log('Effect');\n  }, []);\n\n  return <button onClick={() => setCount(count + 1)}>Click</button>;\n}",
+      "correctAnswer": "Effect",
+      "explanation": "The empty dependency array means the effect runs only once after the initial render.",
+      "hints": ["Dependency array", "Mounting phase"]
     },
-
     {
       "id": 4,
-      "difficulty": "easy",
-      "topic": "react-performance",
-      "type": "machine-coding",
-      "evaluationType": "conceptual",
-      "prompt": "Implement a component that prevents unnecessary re-renders using `React.memo`.",
-      "starterCode": "const Child = ({ value }) => {\n  return <div>{value}</div>;\n};",
-      "testCases": [
-        {
-          "name": "Re-render prevention",
-          "input": [],
-          "expectedOutput": "Component should not re-render if props unchanged"
-        }
-      ],
-      "explanation": "Wrap the component with React.memo.",
-      "hints": ["React.memo", "Props comparison"]
+      "difficulty": "hard",
+      "topic": "useEffect",
+      "type": "mcq",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  React.useEffect(() => {\n    console.log(count);\n  }, [count]);\n\n  return <button onClick={() => setCount(count + 1)}>Click</button>;\n}",
+      "options": ["0", "1", "0 then 1", "Runs infinitely"],
+      "correctAnswer": "0 then 1",
+      "explanation": "The effect runs after the first render (count = 0) and again whenever count changes (after clicking, count = 1).",
+      "hints": ["Effect re-run", "State dependency"]
     },
-
     {
       "id": 5,
-      "difficulty": "easy",
-      "topic": "javascript-async",
-      "type": "machine-coding",
-      "evaluationType": "async",
-      "prompt": "Implement a function `solution(promises)` that resolves all promises like `Promise.all`.",
-      "starterCode": "function solution(promises) {\n  // write your code here\n}",
-      "testCases": [
-        {
-          "name": "Resolve promises",
-          "input": [[1, 2]],
-          "expectedOutput": [1, 2]
-        }
-      ],
-      "explanation": "Wait for all promises to resolve or reject if any fails.",
-      "hints": ["Promise", "Array handling"]
+      "difficulty": "hard",
+      "topic": "custom hooks",
+      "type": "text",
+      "code": "function useCounter() {\n  const [count, setCount] = React.useState(0);\n  return [count, () => setCount(count + 1)];\n}\n\nfunction App() {\n  const [count, increment] = useCounter();\n  increment();\n  console.log(count);\n  return null;\n}",
+      "correctAnswer": "0",
+      "explanation": "State updates are asynchronous. The increment happens after render, so during this render cycle count is still 0.",
+      "hints": ["Async state updates", "Render timing"]
     },
-
     {
       "id": 6,
-      "difficulty": "easy",
-      "topic": "react-machine-coding",
-      "type": "machine-coding",
-      "evaluationType": "behavioral",
-      "prompt": "Build a debounce function and use it in a search input component.",
-      "starterCode": "function debounce(fn, delay) {\n  // write your code here\n}",
-      "testCases": [
-        {
-          "name": "Debounce execution",
-          "input": ["typing events"],
-          "expectedOutput": "Function executes after delay"
-        }
+      "difficulty": "medium",
+      "topic": "performance",
+      "type": "mcq",
+      "code": "const Child = React.memo(({ value }) => {\n  console.log('Child rendered');\n  return <div>{value}</div>;\n});\n\nfunction App() {\n  const [count, setCount] = React.useState(0);\n  return (\n    <>\n      <Child value={10} />\n      <button onClick={() => setCount(count + 1)}>Click</button>\n    </>\n  );\n}",
+      "options": [
+        "Child renders every click",
+        "Child renders once",
+        "Child renders twice",
+        "Error"
       ],
-      "explanation": "Debounce delays execution until user stops triggering the function.",
-      "hints": ["setTimeout", "clearTimeout", "useRef"]
+      "correctAnswer": "Child renders once",
+      "explanation": "React.memo prevents re-rendering when props don’t change. Since value is always 10, Child renders only once.",
+      "hints": ["React.memo", "Prop comparison"]
+    },
+    {
+      "id": 7,
+      "difficulty": "hard",
+      "topic": "useState",
+      "type": "text",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  React.useEffect(() => {\n    setCount(count + 1);\n  }, []);\n\n  console.log(count);\n  return null;\n}",
+      "correctAnswer": "0\n1",
+      "explanation": "First render logs 0. After mount, useEffect runs once and updates state, causing a re-render where count becomes 1.",
+      "hints": ["Effect after render", "State update causes re-render"]
+    },
+    {
+      "id": 8,
+      "difficulty": "hard",
+      "topic": "useEffect",
+      "type": "mcq",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  React.useEffect(() => {\n    setCount(count + 1);\n  }, [count]);\n\n  return null;\n}",
+      "options": ["0 then stops", "Infinite loop", "1 only", "Error"],
+      "correctAnswer": "Infinite loop",
+      "explanation": "The effect updates count, which triggers the effect again due to count being in the dependency array, creating an infinite loop.",
+      "hints": ["Effect dependency", "State update inside effect"]
+    },
+    {
+      "id": 9,
+      "difficulty": "hard",
+      "topic": "stale closure",
+      "type": "text",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  React.useEffect(() => {\n    const id = setInterval(() => {\n      console.log(count);\n    }, 1000);\n\n    return () => clearInterval(id);\n  }, []);\n\n  return <button onClick={() => setCount(count + 1)}>+</button>;\n}",
+      "correctAnswer": "0 repeatedly",
+      "explanation": "The effect captures the initial value of count (0). Since count is not in the dependency array, the interval always logs 0.",
+      "hints": ["Stale closure", "Dependencies matter"]
+    },
+    {
+      "id": 10,
+      "difficulty": "hard",
+      "topic": "useRef",
+      "type": "mcq",
+      "code": "function App() {\n  const countRef = React.useRef(0);\n\n  const handleClick = () => {\n    countRef.current++;\n    console.log(countRef.current);\n  };\n\n  return <button onClick={handleClick}>Click</button>;\n}",
+      "options": ["Always 0", "1 2 3...", "Component re-renders", "Error"],
+      "correctAnswer": "1 2 3...",
+      "explanation": "useRef stores a mutable value that persists across renders without causing re-renders.",
+      "hints": ["useRef behavior", "No re-render"]
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "topic": "useCallback",
+      "type": "mcq",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  const increment = React.useCallback(() => {\n    setCount(count + 1);\n  }, []);\n\n  return <button onClick={increment}>{count}</button>;\n}",
+      "options": [
+        "Works fine",
+        "Always sets count to 1",
+        "Infinite loop",
+        "Error"
+      ],
+      "correctAnswer": "Always sets count to 1",
+      "explanation": "useCallback captures the initial value of count (0). Since count is not in the dependency array, it always sets count to 1.",
+      "hints": ["useCallback dependencies", "Stale state"]
+    },
+    {
+      "id": 12,
+      "difficulty": "hard",
+      "topic": "useCallback",
+      "type": "text",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  const increment = React.useCallback(() => {\n    setCount(c => c + 1);\n  }, []);\n\n  increment();\n  increment();\n  console.log(count);\n\n  return null;\n}",
+      "correctAnswer": "0",
+      "explanation": "State updates happen after render. Both increments are queued, but during render count is still 0.",
+      "hints": ["Functional updates", "Async state"]
+    },
+    {
+      "id": 13,
+      "difficulty": "hard",
+      "topic": "memoization",
+      "type": "mcq",
+      "code": "const Child = React.memo(({ onClick }) => {\n  console.log('Child render');\n  return <button onClick={onClick}>Child</button>;\n});\n\nfunction App() {\n  const [count, setCount] = React.useState(0);\n\n  const handleClick = () => {};\n\n  return (\n    <>\n      <Child onClick={handleClick} />\n      <button onClick={() => setCount(count + 1)}>+</button>\n    </>\n  );\n}",
+      "options": [
+        "Child renders once",
+        "Child renders every time",
+        "Child never renders",
+        "Error"
+      ],
+      "correctAnswer": "Child renders every time",
+      "explanation": "Functions are recreated on every render. Since handleClick is a new reference each time, React.memo cannot prevent re-render.",
+      "hints": ["Referential equality", "Functions as props"]
+    },
+    {
+      "id": 14,
+      "difficulty": "hard",
+      "topic": "useMemo",
+      "type": "text",
+      "code": "function App() {\n  const [count, setCount] = React.useState(0);\n\n  const value = React.useMemo(() => {\n    console.log('Computed');\n    return count * 2;\n  }, []);\n\n  return <button onClick={() => setCount(count + 1)}>{value}</button>;\n}",
+      "correctAnswer": "Computed (only once)",
+      "explanation": "useMemo with an empty dependency array runs only once, so value never updates even when count changes.",
+      "hints": ["useMemo dependencies", "Memoization"]
+    },
+    {
+      "id": 15,
+      "difficulty": "hard",
+      "topic": "strict mode",
+      "type": "text",
+      "code": "function App() {\n  React.useEffect(() => {\n    console.log('Effect');\n  }, []);\n\n  return null;\n}\n\n// App is wrapped in <React.StrictMode>",
+      "correctAnswer": "Effect\nEffect",
+      "explanation": "In React StrictMode (development only), effects are intentionally run twice to help detect side effects.",
+      "hints": ["StrictMode behavior", "Dev vs production"]
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "topic": "stale props",
+      "type": "mcq",
+      "code": "function Child({ value }) {\n  React.useEffect(() => {\n    console.log(value);\n  }, []);\n\n  return null;\n}\n\nfunction App() {\n  const [count, setCount] = React.useState(0);\n  return (\n    <>\n      <Child value={count} />\n      <button onClick={() => setCount(1)}>Click</button>\n    </>\n  );\n}",
+      "options": ["0 then 1", "1 only", "0 only", "Infinite loop"],
+      "correctAnswer": "0 only",
+      "explanation": "The effect in Child runs only once due to empty dependency array, capturing the initial prop value (0).",
+      "hints": ["Props in dependencies", "Effect runs once"]
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "topic": "useRef",
+      "type": "text",
+      "code": "function App() {\n  const renderCount = React.useRef(0);\n  renderCount.current++;\n\n  console.log(renderCount.current);\n  return null;\n}",
+      "correctAnswer": "1 (and increments on every render)",
+      "explanation": "useRef persists values across renders without causing re-renders. It’s often used to track render counts.",
+      "hints": ["useRef persistence", "No re-render trigger"]
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "topic": "useEffect cleanup",
+      "type": "mcq",
+      "code": "function App() {\n  React.useEffect(() => {\n    console.log('Mount');\n    return () => console.log('Unmount');\n  }, []);\n\n  return null;\n}",
+      "options": [
+        "Mount only",
+        "Unmount only",
+        "Mount then Unmount",
+        "Nothing"
+      ],
+      "correctAnswer": "Mount then Unmount",
+      "explanation": "The effect runs on mount and the cleanup runs on unmount. In StrictMode, this may happen twice in development.",
+      "hints": ["Effect lifecycle", "Cleanup behavior"]
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "topic": "state equality",
+      "type": "mcq",
+      "code": "function App() {\n  const [state, setState] = React.useState({ count: 0 });\n\n  const update = () => {\n    setState({ count: 0 });\n  };\n\n  console.log('Render');\n  return <button onClick={update}>Click</button>;\n}",
+      "options": [
+        "No re-render",
+        "Re-render happens",
+        "Infinite loop",
+        "Error"
+      ],
+      "correctAnswer": "Re-render happens",
+      "explanation": "Even though values are the same, a new object reference is created, so React re-renders.",
+      "hints": ["Referential equality", "Object identity"]
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "topic": "useLayoutEffect",
+      "type": "text",
+      "code": "function App() {\n  React.useLayoutEffect(() => {\n    console.log('Layout');\n  }, []);\n\n  React.useEffect(() => {\n    console.log('Effect');\n  }, []);\n\n  return null;\n}",
+      "correctAnswer": "Layout\nEffect",
+      "explanation": "useLayoutEffect runs synchronously after DOM mutations but before painting, while useEffect runs after paint.",
+      "hints": ["Effect order", "Blocking paint"]
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "topic": "conditional hooks",
+      "type": "mcq",
+      "code": "function App({ show }) {\n  if (show) {\n    React.useState(0);\n  }\n  return null;\n}",
+      "options": [
+        "Works fine",
+        "Warning only",
+        "Runtime error",
+        "Compile error"
+      ],
+      "correctAnswer": "Runtime error",
+      "explanation": "Hooks must be called unconditionally and in the same order on every render. Conditional hooks break this rule.",
+      "hints": ["Rules of hooks", "Hook order"]
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "topic": "key re-mounting",
+      "type": "text",
+      "code": "function Counter() {\n  const [count, setCount] = React.useState(0);\n  return <button onClick={() => setCount(count + 1)}>{count}</button>;\n}\n\nfunction App() {\n  const [key, setKey] = React.useState(0);\n  return (\n    <>\n      <Counter key={key} />\n      <button onClick={() => setKey(key + 1)}>Reset</button>\n    </>\n  );\n}",
+      "correctAnswer": "Counter resets to 0",
+      "explanation": "Changing the key forces React to unmount and remount the component, resetting its state.",
+      "hints": ["Key behavior", "Component remount"]
     }
   ]
 }
